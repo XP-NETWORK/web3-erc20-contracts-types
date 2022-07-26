@@ -27,8 +27,8 @@ interface BridgeInterface extends ethers.utils.Interface {
     "paused()": FunctionFragment;
     "receiveForeign(uint256,address,address,uint256,uint256,address)": FunctionFragment;
     "receiveNative(uint256,address,address,uint256,uint256,address)": FunctionFragment;
-    "sendNative(address,uint256,uint256)": FunctionFragment;
-    "sendWrapped(address,uint256,uint256)": FunctionFragment;
+    "sendNative(address,uint256,uint256,string)": FunctionFragment;
+    "sendWrapped(address,uint256,uint256,string)": FunctionFragment;
     "txFees()": FunctionFragment;
     "validatePauseBridge(uint256,uint256,address)": FunctionFragment;
     "validateUnpauseBridge(uint256,uint256,address)": FunctionFragment;
@@ -52,11 +52,11 @@ interface BridgeInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "sendNative",
-    values: [string, BigNumberish, BigNumberish]
+    values: [string, BigNumberish, BigNumberish, string]
   ): string;
   encodeFunctionData(
     functionFragment: "sendWrapped",
-    values: [string, BigNumberish, BigNumberish]
+    values: [string, BigNumberish, BigNumberish, string]
   ): string;
   encodeFunctionData(functionFragment: "txFees", values?: undefined): string;
   encodeFunctionData(
@@ -136,8 +136,8 @@ interface BridgeInterface extends ethers.utils.Interface {
 
   events: {
     "Paused(address)": EventFragment;
-    "Transfer(uint256,uint256,uint256,address,address,uint256)": EventFragment;
-    "Unfreeze(uint256,uint256,uint256,address,address,uint256)": EventFragment;
+    "Transfer(uint256,uint256,uint256,address,string,uint256)": EventFragment;
+    "Unfreeze(uint256,uint256,uint256,address,string,uint256)": EventFragment;
     "Unpaused(address)": EventFragment;
   };
 
@@ -247,6 +247,7 @@ export class Bridge extends BaseContract {
       nativeToken: string,
       value: BigNumberish,
       chainId: BigNumberish,
+      to: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -254,6 +255,7 @@ export class Bridge extends BaseContract {
       wToken: string,
       value: BigNumberish,
       chainId: BigNumberish,
+      to: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -334,6 +336,7 @@ export class Bridge extends BaseContract {
     nativeToken: string,
     value: BigNumberish,
     chainId: BigNumberish,
+    to: string,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -341,6 +344,7 @@ export class Bridge extends BaseContract {
     wToken: string,
     value: BigNumberish,
     chainId: BigNumberish,
+    to: string,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -421,6 +425,7 @@ export class Bridge extends BaseContract {
       nativeToken: string,
       value: BigNumberish,
       chainId: BigNumberish,
+      to: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -428,6 +433,7 @@ export class Bridge extends BaseContract {
       wToken: string,
       value: BigNumberish,
       chainId: BigNumberish,
+      to: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -485,7 +491,7 @@ export class Bridge extends BaseContract {
 
     Paused(account?: null): TypedEventFilter<[string], { account: string }>;
 
-    "Transfer(uint256,uint256,uint256,address,address,uint256)"(
+    "Transfer(uint256,uint256,uint256,address,string,uint256)"(
       actionId?: null,
       chainId?: null,
       txFees?: null,
@@ -523,7 +529,7 @@ export class Bridge extends BaseContract {
       }
     >;
 
-    "Unfreeze(uint256,uint256,uint256,address,address,uint256)"(
+    "Unfreeze(uint256,uint256,uint256,address,string,uint256)"(
       actionId?: null,
       chainId?: null,
       txFees?: null,
@@ -599,6 +605,7 @@ export class Bridge extends BaseContract {
       nativeToken: string,
       value: BigNumberish,
       chainId: BigNumberish,
+      to: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -606,6 +613,7 @@ export class Bridge extends BaseContract {
       wToken: string,
       value: BigNumberish,
       chainId: BigNumberish,
+      to: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -687,6 +695,7 @@ export class Bridge extends BaseContract {
       nativeToken: string,
       value: BigNumberish,
       chainId: BigNumberish,
+      to: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -694,6 +703,7 @@ export class Bridge extends BaseContract {
       wToken: string,
       value: BigNumberish,
       chainId: BigNumberish,
+      to: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
